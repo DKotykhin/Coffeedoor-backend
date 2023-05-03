@@ -15,6 +15,7 @@ router.patch('/store', storeController.update);
 router.delete('/store', storeController.delete);
 
 router.get('/menu', menuController.menuData);
+router.get('/hello', menuController.menuHello);
 
 router.post('/storeUpload', uploadImage.fields([
     { name: 'image', maxCount: 10 },

@@ -11,6 +11,15 @@ class MenuController {
             next(error)
         }
     }
+    async menuHello(req, res, next) {
+        try {
+            
+            res.json("Hello world!");
+
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default new MenuController;
