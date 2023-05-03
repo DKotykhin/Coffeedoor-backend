@@ -55,7 +55,7 @@ const storeSchema = new Schema({
         type: Boolean,
         default: false
     },
-    hide: {
+    hidden: {
         type: Boolean,
         default: false,
     },
