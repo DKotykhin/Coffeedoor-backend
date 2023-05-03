@@ -22,18 +22,16 @@ To run this project, you will need to add the following environment variables to
 
 `PORT`
 
-## Deploy on Vercel
+## Deploy on Heroku
 
-[https://coffeedoor-next-hygraph.vercel.app](https://coffeedoor-next-hygraph.vercel.app)
-
-[https://luckycat.pp.ua](https://www.luckycat.pp.ua/)
+[https://coffeedoor-backend-express.herokuapp.com](https://coffeedoor-backend-express.herokuapp.com)
 
 ## Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/DKotykhin/Coffeedoor-next-Hygraph.git
+  git clone https://github.com/DKotykhin/Coffeedoor-backend-express.git
 ```
 
 Go to the project directory
