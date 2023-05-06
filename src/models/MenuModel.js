@@ -17,6 +17,11 @@ const menuSchema = new Schema({
             required: true,
         },
     },
+    subtitle: {
+        ua: String,
+        ru: String,
+        en: String,
+    },
     items: [{
         name: {
             ua: {
@@ -50,7 +55,10 @@ const menuSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    position: Number
+    position: {
+        type: Number,
+        default: 0,
+    }
 },
     {
         timestamps: true,

@@ -3,7 +3,7 @@ import ApiError from '../error/apiError.js';
 
 class StoreService {
     async getAll() {
-        const storeItems = await StoreModel.find().sort({ position: 1 });
+        const storeItems = await StoreModel.find({ hidden: false }).sort({ position: 1 });
         if (!storeItems) throw ApiError.notFound("Can't find any item");
 
         return storeItems;

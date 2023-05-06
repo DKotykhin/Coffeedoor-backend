@@ -44,8 +44,16 @@ const storeSchema = new Schema({
     },
     images: [String],
     tm: String,
-    country: String,
-    sort: String,
+    country: {
+        ua: String,
+        ru: String,
+        en: String,
+    },
+    sort: {
+        ua: String,
+        ru: String,
+        en: String,
+    },
     price: {
         type: Number,
         required: true,
@@ -59,7 +67,10 @@ const storeSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    position: Number
+    position: {
+        type: Number,
+        default: 0,
+    }
 },
     {
         timestamps: true,

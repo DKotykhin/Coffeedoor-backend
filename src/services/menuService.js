@@ -3,7 +3,7 @@ import ApiError from '../error/apiError.js';
 
 class MenuService {
     async getAll() {
-        const menuItems = await MenuModel.find().sort({ position: 1 });
+        const menuItems = await MenuModel.find({ hidden: false }).sort({ position: 1 });
         if (!menuItems) throw ApiError.notFound("Can't find any item");
 
         return menuItems;
