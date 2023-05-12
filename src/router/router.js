@@ -16,11 +16,11 @@ router.delete('/store', storeController.delete);
 
 router.get('/menu', menuController.menuData);
 
-router.post('/storeUpload', uploadImage.fields([
+router.post('/image', uploadImage.fields([
     { name: 'image', maxCount: 10 },
 ]), uploadController.upload);
-router.delete('/storeUpload', uploadController.deleteAll);
-router.delete('/storeUpload/:fileName', uploadController.deleteOne);
+router.delete('/image', uploadController.deleteAll);
+router.delete('/image/:fileName', uploadController.deleteOne);
 
 router.post('/send', orderController.orderData);
 router.get('/admin/:id', orderController.userOrders);

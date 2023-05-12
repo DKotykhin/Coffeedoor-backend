@@ -4,7 +4,6 @@ import OrderModel from '../models/OrderModel.js';
 import UserModel from '../models/UserModel.js';
 import ApiError from '../error/apiError.js';
 import userService from './userService.js';
-import StoreModel from '../models/StoreModel.js';
 
 class OrderService {
     async writeOrderData(data) {
@@ -48,19 +47,9 @@ class OrderService {
             text: message,
         });
 
-        const candidat = await UserModel.findOne({ phone });
+        const user = await userService.rawRegister({ phone, userName, address });
 
-        let client = '';
-        if (candidat) {
-            client = candidat._id;
-        } else {
-            const newUser = await userService.register({
-                phone, userName, address
-            });
-            client = newUser._id;
-        }
-
-        const doc = new OrderModel({ ...data, orderQuantity, orderSum, averageSum, client });
+        const doc = new OrderModel({ ...data, orderQuantity, orderSum, averageSum, userId: user._id });
         const newCustomOrder = await doc.save();
 
         return {

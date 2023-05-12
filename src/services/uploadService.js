@@ -21,7 +21,7 @@ class UploadService {
             })
         };
 
-        const images = file.image.map(item => `/storeUpload/${item.filename}`);
+        const images = file.image.map(item => `/image/${item.filename}`);
 
         const uploadedItem = await StoreModel.findOneAndUpdate(
             { _id },
