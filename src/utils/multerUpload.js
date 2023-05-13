@@ -5,13 +5,13 @@ import ApiError from '../error/apiError.js';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        if (!fs.existsSync('uploads')) {
-            fs.mkdirSync('uploads');
+        if (!fs.existsSync('src/uploads')) {
+            fs.mkdirSync('src/uploads');
         }
-        cb(null, 'uploads')
+        cb(null, 'src/uploads')
     },
     filename: function (req, file, cb) {        
-        cb(null, file.fieldname + '-' + file.originalname)
+        cb(null, file.originalname)
     }
 });
 

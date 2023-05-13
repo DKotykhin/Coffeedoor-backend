@@ -38,7 +38,7 @@ class UploadService {
 
     async deleteAll(_id) {
         const item = await findItemById(_id);
-        const fileList = item.images.map(item => ("uploads/" + item.split('/')[2]));
+        const fileList = item.images.map(item => ("src/uploads/" + item.split('/')[2]));
 
         fileList.forEach(item => {
             fs.unlink(item, async (err) => {
@@ -63,7 +63,7 @@ class UploadService {
 
         fileList.forEach(item => {
             if (item === fileName) {
-                fs.unlink("uploads/" + item, async (err) => {
+                fs.unlink("src/uploads/" + item, async (err) => {
                     if (err) {
                         throw ApiError.internalError("Can't delete images")
                     }
