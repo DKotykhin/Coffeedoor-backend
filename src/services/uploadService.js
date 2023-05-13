@@ -38,7 +38,6 @@ class UploadService {
 
     async deleteAll(_id) {
         const item = await findItemById(_id);
-
         const fileList = item.images.map(item => ("uploads/" + item.split('/')[2]));
 
         fileList.forEach(item => {
@@ -72,7 +71,7 @@ class UploadService {
             }
         });
 
-        const images = "/storeUpload/" + fileName;
+        const images = "/image/" + fileName;
 
         const updatedItem = await StoreModel.findOneAndUpdate(
             { _id },

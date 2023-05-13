@@ -2,7 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import cors from 'cors';
-import path from 'path';
 
 import router from './router/router.js';
 import errorHandler from "./middlewares/errorHandler.js";
@@ -15,12 +14,11 @@ mongoose
     .catch((err) => console.log('DB Error:', err))
 
 const app = express();
-const __dirname = path.resolve();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/image', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/image', express.static('uploads'));
 app.use('/api', router);
 app.use(errorHandler);
 

@@ -4,10 +4,10 @@ class UploadController {
     async upload(req, res, next) {
         try {
             const item = await uploadService.upload(req.files, req.body.itemId);
-            const { card_img, list_img } = item;
+            const { images, _id } = item;
             res.json({
-                card_img,
-                list_img,
+                _id,
+                images,
                 message: "Images successfully upload.",
             });
         } catch (error) {
@@ -18,11 +18,11 @@ class UploadController {
     async deleteAll(req, res, next) {
         try {
             const updatedItem = await uploadService.deleteAll(req.body.itemId);
-            const { card_img, list_img } = updatedItem;
+            const { images, _id } = updatedItem;
             res.json({
-                card_img,
-                list_img,
-                message: "Images successfully deleted.",
+                _id,
+                images,
+                message: "All images successfully deleted.",
             });
         } catch (error) {
             next(error)
@@ -32,10 +32,10 @@ class UploadController {
     async deleteOne(req, res, next) {
         try {
             const updatedItem = await uploadService.deleteOne(req.body.itemId, req.params.fileName);
-            const { card_img, list_img } = updatedItem;
+            const { images, _id } = updatedItem;
             res.json({
-                card_img,
-                list_img,
+                _id,
+                images,
                 message: "Image successfully deleted.",
             });
         } catch (error) {
