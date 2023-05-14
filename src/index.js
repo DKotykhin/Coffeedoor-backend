@@ -18,7 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/image', express.static('src/uploads'));
+app.use('/api/image', express.static('uploads'));
 app.use('/api', router);
 app.use(errorHandler);
 

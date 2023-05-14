@@ -4,11 +4,11 @@ class UploadController {
     async upload(req, res, next) {
         try {
             const item = await uploadService.upload(req.files, req.body.itemId);
-            const { images, _id } = item;
+            const { images, _id, itemName } = item;
             res.json({
                 _id,
                 images,
-                message: "Images successfully upload.",
+                message: `Images successfully upload to ${itemName.en} item.`,
             });
         } catch (error) {
             next(error)
