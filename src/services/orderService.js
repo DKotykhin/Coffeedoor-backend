@@ -7,7 +7,7 @@ import userService from './userService.js';
 
 class OrderService {
     async writeOrderData(data) {
-        const { userName, phone, deliveryWay, address, comment } = data;
+        const { userData: {userName, phone, deliveryWay, address, comment}, basketData } = data;
 
         const TOKEN = process.env.TELEGRAM_TOKEN;
         const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -30,7 +30,7 @@ class OrderService {
         message += `<b>Коментар: </b>${comment ? comment : ""}\n`;
         message += `<b>Замовлення: </b>\n`;
 
-        data.basketData.forEach(item => {
+        basketData.forEach(item => {
             message += `${item.itemTitle} ${item.itemName}, ${item.weight ? `${item.weight}г,` : ""
                 } ${item.quantity} x ${item.price} грн\n`;
             orderQuantity += item.quantity;
