@@ -31,7 +31,7 @@ class OrderService {
         message += `<b>Замовлення: </b>\n`;
 
         basketData.forEach(item => {
-            message += `${item.itemTitle} ${item.itemName}, ${item.weight ? `${item.weight}г,` : ""
+            message += `${item.title} ${item.itemName}, ${item.weight ? `${item.weight}г,` : ""
                 } ${item.quantity} x ${item.price} грн\n`;
             orderQuantity += item.quantity;
             orderSum += +item.price * item.quantity;

@@ -16,7 +16,7 @@ const orderSchema = new Schema({
     averageSum: Number,
     basketData: [
         {
-            itemTitle: String,
+            title: String,
             itemName: String,
             weight: Number,
             quantity: Number,
