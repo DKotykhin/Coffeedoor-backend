@@ -50,9 +50,16 @@ const storeSchema = new Schema({
         en: String,
     },
     sort: {
-        ua: String,
-        ru: String,
-        en: String,
+        key: {
+            ua: String,
+            ru: String,
+            en: String,
+        },
+        value: {
+            ua: String,
+            ru: String,
+            en: String,
+        },
     },
     price: {
         type: Number,
