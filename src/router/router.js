@@ -1,10 +1,8 @@
 import express from "express";
 
-import storeController from "../controllers/storeController.js";
-import uploadController from "../controllers/uploadController.js";
-import orderController from "../controllers/orderController.js";
+import { storeController, uploadController, orderController, menuController } from "../controllers/index.js";
 import { uploadImage } from "../utils/multerUpload.js";
-import menuController from "../controllers/menuController.js";
+import addItem from '../middlewares/addItem.js';
 
 const router = express.Router();
 
@@ -16,7 +14,7 @@ router.delete('/store', storeController.delete);
 
 router.get('/menu', menuController.menuData);
 
-router.post('/image', uploadImage.fields([
+router.post('/image/:id', addItem, uploadImage.fields([
     { name: 'image', maxCount: 10 },
 ]), uploadController.upload);
 router.delete('/image', uploadController.deleteAll);

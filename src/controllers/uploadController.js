@@ -3,7 +3,7 @@ import uploadService from "../services/uploadService.js";
 class UploadController {
     async upload(req, res, next) {
         try {
-            const item = await uploadService.upload(req.files, req.body.itemId);
+            const item = await uploadService.upload(req.files, req.item);
             const { images, _id, itemName } = item;
             res.json({
                 _id,
