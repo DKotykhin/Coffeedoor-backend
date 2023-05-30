@@ -15,7 +15,7 @@ class OrderController {
 
     async userOrders(req, res, next) {
         try {
-            const result = await orderService.findOrdersByUser(req.params.id);
+            const result = await orderService.findOrdersByUser(req.userId);
 
             res.json(result);
 

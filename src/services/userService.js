@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 import UserModel from "../models/UserModel.js";
 import ApiError from '../error/apiError.js';
+import { findUserById } from '../utils/findUserById.js';
 
 const generateToken = (_id) => {
     return jwt.sign(
@@ -18,6 +19,12 @@ const createPasswordHash = async (password) => {
 };
 
 class UserService {
+
+    async loginByToken(id) {
+        const user = await findUserById(id);
+
+        return user;
+    }
 
     async rawRegister(data) {
         const { phone, userName, address } = data;
@@ -38,7 +45,7 @@ class UserService {
     }
 
     async fullRegister(data) {
-        const { phone, userName, address, email } = data;
+        const { phone, userName, address, email, password } = data;
         if (email) {
             const candidat = await UserModel.findOne({ email });
             if (candidat) {
@@ -70,17 +77,54 @@ class UserService {
 
     async login(data) {
         const { phone, email, password } = data;
-        const user = await UserModel.findOne({ email });
+        let user;
+        if (email) {
+            user = await UserModel.findOne({ email });
+        }
+        if (!user && phone) {
+            user = await UserModel.findOne({ phone });
+        }
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
-        const isValidPass = bcrypt.compare(password, user.passwordHash)
+        let isValidPass;
+        if (user.passwordHash) {
+            isValidPass = bcrypt.compare(password, user.passwordHash)
+        } else return {
+            user,
+            message: "You don't have password yet. Please, set the new one"
+        }
         if (!isValidPass) {
             throw ApiError.badRequest('Incorrect login or password')
         }
         const token = generateToken(user._id);
 
         return { user, token };
+    }
+
+    async setPassword(data) {
+        const { phone, email, password } = data;
+        let user;
+        if (email) {
+            user = await UserModel.findOne({ email });
+        }
+        if (!user && phone) {
+            user = await UserModel.findOne({ phone });
+        }
+        if (!user) {
+            throw ApiError.notFound("Can't find user")
+        }
+        const passwordHash = await createPasswordHash(password);
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { _id: user._id },
+            { passwordHash },
+            { returnDocument: 'after' },
+        );
+        if (!updatedUser) {
+            throw ApiError.forbidden("Modified forbidden")
+        }
+
+        return updatedUser;
     }
 }
 

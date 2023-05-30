@@ -1,8 +1,9 @@
 import express from "express";
 
-import { storeController, uploadController, orderController, menuController } from "../controllers/index.js";
+import { storeController, uploadController, orderController, menuController, userController } from "../controllers/index.js";
 import { uploadImage } from "../utils/multerUpload.js";
-import addItem from '../middlewares/addItem.js';
+import { checkAuth, addItem } from "../middlewares/index.js";
+
 
 const router = express.Router();
 
@@ -21,6 +22,12 @@ router.delete('/image', uploadController.deleteAll);
 router.delete('/image/:fileName', uploadController.deleteOne);
 
 router.post('/send', orderController.orderData);
-router.get('/admin/:id', orderController.userOrders);
+
+router.post('/auth/register', userController.register);
+router.post('/auth/login', userController.login);
+router.patch('/auth/password', userController.setPassword);
+
+router.get('/user/me', checkAuth, userController.loginByToken);
+router.get('/user/orders', checkAuth, orderController.userOrders);
 
 export default router;

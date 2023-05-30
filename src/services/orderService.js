@@ -61,7 +61,13 @@ class OrderService {
     async findOrdersByUser(id) {
         const orders = await OrderModel.find({ client: id }).sort({ createdAt: -1 });
 
-        return orders;
+        if (orders.length) {
+            return orders;
+        } else {
+            return {
+                message: "You don't have any orders yet"
+            }
+        }
     }
 }
 
