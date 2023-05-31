@@ -4,11 +4,11 @@ class UserController {
     async loginByToken(req, res, next) {
         try {
             const user = await userService.loginByToken(req.userId);
-            const { _id, email, userName, avatarURL, role } = user;
+            const { passwordHash, ...rest } = user._doc;
 
             res.json({
-                _id, email, userName, avatarURL, role,
-                message: `User ${userName} successfully logged via token`,
+                user: rest,
+                message: `User ${user.userName} successfully logged via token`,
             });
         } catch (error) {
             next(error)
@@ -17,12 +17,13 @@ class UserController {
 
     async register(req, res, next) {
         try {
-            const user = await userService.fullRegister(req.body);
-            const { user: { _id, email, userName, role }, token } = user;
+            const { user, token } = await userService.fullRegister(req.body);
+            const { passwordHash, ...rest } = user._doc;
 
             res.status(201).send({
-                _id, email, userName, role, token,
-                message: `User ${userName} successfully created`,
+                user: rest,
+                token,
+                message: `User ${user.userName} successfully created`,
             });
         } catch (error) {
             next(error)
@@ -31,12 +32,13 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            const user = await userService.login(req.body);
-            const { user: { _id, email, userName, avatarURL, role }, token, message } = user;
+            const { user, token, message } = await userService.login(req.body);
+            const { passwordHash, ...rest } = user._doc;
 
             res.json({
-                _id, email, userName, avatarURL, role, token,
-                message: message ? message : `User ${userName} successfully logged`,
+                user: rest,
+                token,
+                message,
             });
         } catch (error) {
             next(error)
@@ -45,9 +47,13 @@ class UserController {
 
     async setPassword(req, res, next) {
         try {
-            const user = await userService.setPassword(req.body);
+            const { user, message } = await userService.setPassword(req.body);
+            const { passwordHash, ...rest } = user._doc;
 
-            res.json(user)
+            res.json({
+                user: rest,
+                message,
+            })
         } catch (error) {
             next(error)
         }

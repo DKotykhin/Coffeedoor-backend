@@ -45,13 +45,7 @@ class UserService {
     }
 
     async fullRegister(data) {
-        const { phone, userName, address, email, password } = data;
-        if (email) {
-            const candidat = await UserModel.findOne({ email });
-            if (candidat) {
-                throw ApiError.badRequest(`User ${email} already exist. Please login`)
-            }
-        };
+        const { phone, userName, password } = data;
         if (phone) {
             const candidat = await UserModel.findOne({ phone });
             if (candidat) {
@@ -63,8 +57,6 @@ class UserService {
         const user = await UserModel.create({
             userName,
             phone,
-            address,
-            email,
             passwordHash,
         });
         if (!user) {
@@ -99,21 +91,25 @@ class UserService {
         }
         const token = generateToken(user._id);
 
-        return { user, token };
+        return {
+            user,
+            token,
+            message: `User ${user.userName} successfully logged`
+        };
     }
 
     async setPassword(data) {
-        const { phone, email, password } = data;
-        let user;
-        if (email) {
-            user = await UserModel.findOne({ email });
-        }
-        if (!user && phone) {
-            user = await UserModel.findOne({ phone });
-        }
+        const { phone, password } = data;
+
+        const user = await UserModel.findOne({ phone });
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
+
+        if (user.passwordHash) {
+            throw ApiError.forbidden("You have password yet. Please login")
+        }
+
         const passwordHash = await createPasswordHash(password);
         const updatedUser = await UserModel.findOneAndUpdate(
             { _id: user._id },
@@ -124,7 +120,10 @@ class UserService {
             throw ApiError.forbidden("Modified forbidden")
         }
 
-        return updatedUser;
+        return {
+            user: updatedUser,
+            message: 'Password successfully setted'
+        };
     }
 }
 
