@@ -81,7 +81,7 @@ class UserService {
         }
         let isValidPass;
         if (user.passwordHash) {
-            isValidPass = bcrypt.compare(password, user.passwordHash)
+            isValidPass = await bcrypt.compare(password, user.passwordHash)
         } else return {
             user,
             message: "You don't have password yet. Please, set the new one"
