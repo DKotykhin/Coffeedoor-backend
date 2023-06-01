@@ -7,7 +7,7 @@ import userService from './userService.js';
 
 class OrderService {
     async writeOrderData(data) {
-        const { userData: {userName, phone, deliveryWay, address, comment}, basketData } = data;
+        const { userData: { userName, phone, deliveryWay, address, comment }, basketData } = data;
 
         const TOKEN = process.env.TELEGRAM_TOKEN;
         const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -59,12 +59,13 @@ class OrderService {
     }
 
     async findOrdersByUser(id) {
-        const orders = await OrderModel.find({ client: id }).sort({ createdAt: -1 });
+        const orders = await OrderModel.find({ userId: id }).sort({ createdAt: -1 });
 
         if (orders.length) {
-            return orders;
+            return { orders };
         } else {
             return {
+                orders: [],
                 message: "You don't have any orders yet"
             }
         }
