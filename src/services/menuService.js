@@ -8,6 +8,36 @@ class MenuService {
 
         return menuItems;
     }
+
+    async createGroup(data) {
+        const doc = new MenuModel(data);
+        const item = await doc.save();
+
+        return item;
+    }
+
+    async updateGroup(body) {
+        const { data, groupId } = body;
+        const updatedItem = await MenuModel.findOneAndUpdate(
+            { _id: groupId },
+            { $set: data },
+            { returnDocument: 'after' },
+        );
+        if (!updatedItem) {
+            throw ApiError.forbidden("Modified forbidden")
+        }
+
+        return updatedItem;
+    }
+
+    async deleteGroup(_id) {
+        const itemStatus = await MenuModel.deleteOne({ _id });
+        if (!itemStatus.deletedCount) {
+            throw ApiError.forbidden("Deleted forbidden")
+        }
+
+        return itemStatus;
+    }
 }
 
 export default new MenuService;

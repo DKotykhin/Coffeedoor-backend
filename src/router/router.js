@@ -2,18 +2,20 @@ import express from "express";
 
 import { storeController, uploadController, orderController, menuController, userController } from "../controllers/index.js";
 import { uploadImage } from "../utils/multerUpload.js";
-import { checkAuth, addItem } from "../middlewares/index.js";
-
+import { checkAuth, addItem, checkAdminAuth } from "../middlewares/index.js";
 
 const router = express.Router();
 
 router.get('/store', storeController.getAll);
 router.get('/store/:id', storeController.getOne);
-router.post('/store', storeController.create);
-router.patch('/store', storeController.update);
-router.delete('/store', storeController.delete);
+router.post('/store', checkAuth, checkAdminAuth, storeController.create);
+router.patch('/store', checkAuth, checkAdminAuth, storeController.update);
+router.delete('/store', checkAuth, checkAdminAuth, storeController.delete);
 
-router.get('/menu', menuController.menuData);
+router.get('/menu', menuController.getAll);
+router.post('/menugroup', checkAuth, checkAdminAuth, menuController.createGroup);
+router.patch('/menugroup', checkAuth, checkAdminAuth, menuController.updateGroup);
+router.delete('/menugroup', checkAuth, checkAdminAuth, menuController.deleteGroup);
 
 router.post('/image/:id', addItem, uploadImage.fields([
     { name: 'image', maxCount: 10 },

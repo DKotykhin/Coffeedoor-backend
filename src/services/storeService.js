@@ -23,9 +23,10 @@ class StoreService {
         return item;
     }
 
-    async update(data, _id) {
+    async update(body) {
+        const { data, id } = body;
         const updatedItem = await StoreModel.findOneAndUpdate(
-            { _id },
+            { _id: id },
             { $set: data },
             { returnDocument: 'after' },
         );

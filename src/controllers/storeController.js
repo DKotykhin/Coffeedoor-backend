@@ -38,7 +38,7 @@ class StoreController {
 
     async update(req, res, next) {
         try {
-            const updatedItem = await storeService.update(req.body.data, req.body.id);
+            const updatedItem = await storeService.update(req.body);
 
             res.json({
                 ...updatedItem._doc,
@@ -51,7 +51,7 @@ class StoreController {
 
     async delete(req, res, next) {
         try {
-            const itemStatus = await storeService.delete(req.body._id)
+            const itemStatus = await storeService.delete(req.query._id)
 
             res.json({
                 itemStatus,
