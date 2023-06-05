@@ -3,7 +3,7 @@ import ApiError from '../error/apiError.js';
 
 class MenuService {
     async getAll() {
-        const menuItems = await MenuModel.find({ hidden: false }).sort({ position: 1 });
+        const menuItems = await MenuModel.find().sort({ position: 1 });
         if (!menuItems) throw ApiError.notFound("Can't find any item");
 
         return menuItems;
@@ -37,6 +37,33 @@ class MenuService {
         }
 
         return itemStatus;
+    }
+
+    async createItem(body) {
+        const { data, groupId } = body;
+        const uploadedItem = await MenuModel.findOneAndUpdate(
+            { _id: groupId },
+            { $push: { items: data } },
+            { returnDocument: 'after' },
+        );
+
+        if (!uploadedItem) {
+            throw ApiError.notFound("Can't find item")
+        }
+
+        return uploadedItem;
+    }
+
+    async updateItem(body) {
+        const { data, groupId, itemId } = body;
+
+        return data;
+    }
+
+    async deleteItem(body) {
+        const { groupId, itemId } = body;
+
+        return { groupId, itemId };
     }
 }
 

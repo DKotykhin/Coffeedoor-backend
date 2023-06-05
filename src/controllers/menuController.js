@@ -47,6 +47,42 @@ class MenuController {
             next(error)
         }
     }
+
+    async createItem(req, res, next) {
+        try {
+            const result = await menuService.createItem(req.body);
+
+            res.json(result);
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async updateItem(req, res, next) {
+        try {
+            const result = await menuService.updateItem(req.body);
+
+            res.json(result);
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async deleteItem(req, res, next) {
+        try {
+            const groupStatus = await menuService.deleteItem(req.body);
+
+            res.json({
+                ...groupStatus,
+                message: 'Menu group successfully deleted'
+            });
+
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default new MenuController;

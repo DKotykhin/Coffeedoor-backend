@@ -16,6 +16,9 @@ router.get('/menu', menuController.getAll);
 router.post('/menugroup', checkAuth, checkAdminAuth, menuController.createGroup);
 router.patch('/menugroup', checkAuth, checkAdminAuth, menuController.updateGroup);
 router.delete('/menugroup', checkAuth, checkAdminAuth, menuController.deleteGroup);
+router.post('/menuitem', checkAuth, checkAdminAuth, menuController.createItem);
+router.patch('/menuitem', checkAuth, checkAdminAuth, menuController.updateItem);
+router.delete('/menuitem', checkAuth, checkAdminAuth, menuController.deleteItem);
 
 router.post('/image/:id', addItem, uploadImage.fields([
     { name: 'image', maxCount: 10 },
