@@ -54,7 +54,7 @@ class StoreController {
             const itemStatus = await storeService.delete(req.query._id)
 
             res.json({
-                itemStatus,
+                ...itemStatus,
                 message: 'Item successfully deleted'
             });
         } catch (error) {

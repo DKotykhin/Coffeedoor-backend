@@ -36,9 +36,12 @@ class MenuController {
 
     async deleteGroup(req, res, next) {
         try {
-            const result = await menuService.deleteGroup(req.query._id);
+            const groupStatus = await menuService.deleteGroup(req.query._id);
 
-            res.json(result);
+            res.json({
+                ...groupStatus,
+                message: 'Menu group successfully deleted'
+            });
 
         } catch (error) {
             next(error)
