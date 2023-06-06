@@ -51,7 +51,7 @@ class StoreController {
 
     async delete(req, res, next) {
         try {
-            const status = await storeService.delete(req.query._id)
+            const status = await storeService.delete(req.query.storeId)
 
             res.json({
                 status,

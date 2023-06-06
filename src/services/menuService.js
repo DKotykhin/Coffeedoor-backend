@@ -69,8 +69,7 @@ class MenuService {
         return updatedItem;
     }
 
-    async deleteItem(body) {
-        const { itemId } = body;
+    async deleteItem(itemId) {        
         const updatedItem = await MenuModel.findOneAndUpdate(
             { "items._id": itemId },
             { $pull: { items: { _id: itemId } } },

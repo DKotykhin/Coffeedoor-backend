@@ -42,7 +42,7 @@ class MenuController {
 
     async deleteGroup(req, res, next) {
         try {
-            const status = await menuService.deleteGroup(req.query._id);
+            const status = await menuService.deleteGroup(req.query.groupId);
 
             res.json({
                 status,
@@ -84,7 +84,7 @@ class MenuController {
 
     async deleteItem(req, res, next) {
         try {
-            const status = await menuService.deleteItem(req.body);
+            const status = await menuService.deleteItem(req.query.itemId);
 
             res.json({
                 status,
