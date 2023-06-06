@@ -43,7 +43,7 @@ const menuSchema = new Schema({
             en: String,
         },
         price: {
-            type: String,
+            type: Number,
             required: true,
         },
         hidden: {

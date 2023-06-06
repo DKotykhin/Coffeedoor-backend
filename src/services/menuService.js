@@ -55,15 +55,32 @@ class MenuService {
     }
 
     async updateItem(body) {
-        const { data, groupId, itemId } = body;
+        const { data, itemId } = body;
+        // const updatedItem = await MenuModel.find({"items._id": {$in: [itemId]}})
+        const updatedItem = await MenuModel.findOneAndUpdate(
+            { "items._id": itemId },
+            { $set: { "items.$[]": data } },
+            { returnDocument: 'after' },
+        );
+        if (!updatedItem) {
+            throw ApiError.forbidden("Modified forbidden")
+        }
 
-        return data;
+        return updatedItem;
     }
 
     async deleteItem(body) {
-        const { groupId, itemId } = body;
+        const { itemId } = body;
+        const updatedItem = await MenuModel.findOneAndUpdate(
+            { "items._id": itemId },
+            { $pull: { items: { _id: itemId } } },
+            { returnDocument: 'after' },
+        );
+        if (!updatedItem) {
+            throw ApiError.forbidden("Modified forbidden")
+        }
 
-        return { groupId, itemId };
+        return updatedItem;
     }
 }
 

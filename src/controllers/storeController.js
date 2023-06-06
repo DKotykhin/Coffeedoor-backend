@@ -25,11 +25,11 @@ class StoreController {
 
     async create(req, res, next) {
         try {
-            const newItem = await storeService.create(req.body);
+            const createdItem = await storeService.create(req.body);
 
             res.status(201).send({
-                ...newItem._doc,
-                message: 'Item successfully created'
+                createdItem,
+                message: 'Store item successfully created'
             });
         } catch (error) {
             next(error)
@@ -41,8 +41,8 @@ class StoreController {
             const updatedItem = await storeService.update(req.body);
 
             res.json({
-                ...updatedItem._doc,
-                message: 'Item successfully updated'
+                updatedItem,
+                message: 'Store item successfully updated'
             });
         } catch (error) {
             next(error)
@@ -54,8 +54,8 @@ class StoreController {
             const itemStatus = await storeService.delete(req.query._id)
 
             res.json({
-                ...itemStatus,
-                message: 'Item successfully deleted'
+                itemStatus,
+                message: 'Store item successfully deleted'
             });
         } catch (error) {
             next(error)

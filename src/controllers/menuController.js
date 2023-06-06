@@ -14,9 +14,12 @@ class MenuController {
 
     async createGroup(req, res, next) {
         try {
-            const result = await menuService.createGroup(req.body);
+            const createdGroup = await menuService.createGroup(req.body);
 
-            res.json(result);
+            res.json({
+                createdGroup,
+                message: 'Menu group successfully created'
+            });
 
         } catch (error) {
             next(error)
@@ -25,9 +28,12 @@ class MenuController {
 
     async updateGroup(req, res, next) {
         try {
-            const result = await menuService.updateGroup(req.body);
+            const updatedGroup = await menuService.updateGroup(req.body);
 
-            res.json(result);
+            res.json({
+                updatedGroup,
+                message: 'Menu group successfully updated'
+            });
 
         } catch (error) {
             next(error)
@@ -39,7 +45,7 @@ class MenuController {
             const groupStatus = await menuService.deleteGroup(req.query._id);
 
             res.json({
-                ...groupStatus,
+                groupStatus,
                 message: 'Menu group successfully deleted'
             });
 
@@ -50,9 +56,12 @@ class MenuController {
 
     async createItem(req, res, next) {
         try {
-            const result = await menuService.createItem(req.body);
+            const createdItem = await menuService.createItem(req.body);
 
-            res.json(result);
+            res.json({
+                createdItem,
+                message: 'Menu item successfully created'
+            });
 
         } catch (error) {
             next(error)
@@ -61,9 +70,12 @@ class MenuController {
 
     async updateItem(req, res, next) {
         try {
-            const result = await menuService.updateItem(req.body);
+            const updatedItem = await menuService.updateItem(req.body);
 
-            res.json(result);
+            res.json({
+                updatedItem,
+                message: 'Menu item successfully updated'
+            });
 
         } catch (error) {
             next(error)
@@ -72,11 +84,11 @@ class MenuController {
 
     async deleteItem(req, res, next) {
         try {
-            const groupStatus = await menuService.deleteItem(req.body);
+            const itemStatus = await menuService.deleteItem(req.body);
 
             res.json({
-                ...groupStatus,
-                message: 'Menu group successfully deleted'
+                itemStatus,
+                message: 'Menu item successfully deleted'
             });
 
         } catch (error) {
