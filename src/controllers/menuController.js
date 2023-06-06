@@ -14,10 +14,10 @@ class MenuController {
 
     async createGroup(req, res, next) {
         try {
-            const createdGroup = await menuService.createGroup(req.body);
+            const item = await menuService.createGroup(req.body);
 
             res.json({
-                createdGroup,
+                item,
                 message: 'Menu group successfully created'
             });
 
@@ -28,10 +28,10 @@ class MenuController {
 
     async updateGroup(req, res, next) {
         try {
-            const updatedGroup = await menuService.updateGroup(req.body);
+            const item = await menuService.updateGroup(req.body);
 
             res.json({
-                updatedGroup,
+                item,
                 message: 'Menu group successfully updated'
             });
 
@@ -42,10 +42,10 @@ class MenuController {
 
     async deleteGroup(req, res, next) {
         try {
-            const groupStatus = await menuService.deleteGroup(req.query._id);
+            const status = await menuService.deleteGroup(req.query._id);
 
             res.json({
-                groupStatus,
+                status,
                 message: 'Menu group successfully deleted'
             });
 
@@ -56,10 +56,10 @@ class MenuController {
 
     async createItem(req, res, next) {
         try {
-            const createdItem = await menuService.createItem(req.body);
+            const item = await menuService.createItem(req.body);
 
             res.json({
-                createdItem,
+                item,
                 message: 'Menu item successfully created'
             });
 
@@ -70,10 +70,10 @@ class MenuController {
 
     async updateItem(req, res, next) {
         try {
-            const updatedItem = await menuService.updateItem(req.body);
+            const item = await menuService.updateItem(req.body);
 
             res.json({
-                updatedItem,
+                item,
                 message: 'Menu item successfully updated'
             });
 
@@ -84,10 +84,10 @@ class MenuController {
 
     async deleteItem(req, res, next) {
         try {
-            const itemStatus = await menuService.deleteItem(req.body);
+            const status = await menuService.deleteItem(req.body);
 
             res.json({
-                itemStatus,
+                status,
                 message: 'Menu item successfully deleted'
             });
 
