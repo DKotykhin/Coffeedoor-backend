@@ -1,8 +1,9 @@
 import express from "express";
 
 import { storeController, uploadController, orderController, menuController, userController } from "../controllers/index.js";
+import { checkAuth, addItem, checkAdminAuth, validationErrors } from "../middlewares/index.js";
 import { uploadImage } from "../utils/multerUpload.js";
-import { checkAuth, addItem, checkAdminAuth } from "../middlewares/index.js";
+import validation from "../validations/validation.js";
 
 const router = express.Router();
 
@@ -28,9 +29,9 @@ router.delete('/image/:fileName', uploadController.deleteOne);
 
 router.post('/send', orderController.orderData);
 
-router.post('/auth/register', userController.register);
-router.post('/auth/login', userController.login);
-router.patch('/auth/password', userController.setPassword);
+router.post('/auth/register', validation.register, validationErrors, userController.register);
+router.post('/auth/login', validation.login, validationErrors, userController.login);
+router.patch('/auth/password', validation.password, validationErrors, userController.setPassword);
 
 router.get('/user/me', checkAuth, userController.loginByToken);
 router.get('/user/orders', checkAuth, orderController.userOrders);

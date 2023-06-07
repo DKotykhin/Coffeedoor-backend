@@ -14,13 +14,15 @@ Full backend part for CoffeeDoor online store
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`TELEGRAM_TOKEN`
-
-`TELEGRAM_CHAT_ID`
+`PORT`
 
 `MONGO_DB`
 
-`PORT`
+`SECRET_KEY`
+
+`TELEGRAM_TOKEN`
+
+`TELEGRAM_CHAT_ID`
 
 ## Deploy on Heroku
 
