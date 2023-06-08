@@ -58,6 +58,44 @@ class UserController {
             next(error)
         }
     }
+
+    async confirmPassword(req, res, next) {
+        try {
+            const status = await userService.confirmPassword(req.body.password, req.userId);
+
+            res.json(status);
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async updatePassword(req, res, next) {
+        try {
+            const status = await userService.updatePassword(req.body.password, req.userId);
+
+            res.json(status);
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async updateProfile(req, res, next) {
+        try {
+            const { user, message } = await userService.updateProfile(req.body, req.userId);
+
+            const { passwordHash, ...rest } = user._doc;
+
+            res.json({
+                user: rest,
+                message,
+            })
+
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default new UserController;

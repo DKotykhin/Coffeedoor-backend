@@ -14,9 +14,16 @@ const userName = body('userName')
     .isLength({ max: 100 }).withMessage('Name must be maximum 100 chars long');
 
 const email = body('email')
+    .optional()
     .isEmail().withMessage('Incorrect email format');
 
-const avatar = body('avatar')
+const address = body('address')
+    .optional()
+    .isString().withMessage('Incorrect address format')
+    .isLength({ min: 3 }).withMessage('Address must be at least 3 chars long')
+    .isLength({ max: 200 }).withMessage('Address must be maximum 200 chars long');
+
+const avatarURL = body('avatar')
     .optional().isURL().withMessage('Incorrect URL');
 
 class Validation {
@@ -24,6 +31,7 @@ class Validation {
     login = [phone, password];
     name = [userName];
     password = [password];
+    profile = [userName, email, address]
 }
 
 export default new Validation;

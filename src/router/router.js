@@ -35,5 +35,8 @@ router.patch('/auth/password', validation.password, validationErrors, userContro
 
 router.get('/user/me', checkAuth, userController.loginByToken);
 router.get('/user/orders', checkAuth, orderController.userOrders);
+router.post('/user/password', checkAuth, validation.password, validationErrors, userController.confirmPassword);
+router.patch('/user/password', checkAuth, validation.password, validationErrors, userController.updatePassword);
+router.patch('/user/me', checkAuth, validation.profile, validationErrors, userController.updateProfile);
 
 export default router;

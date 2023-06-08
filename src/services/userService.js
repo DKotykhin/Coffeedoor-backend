@@ -125,6 +125,70 @@ class UserService {
             message: 'Password successfully setted'
         };
     }
+
+    async confirmPassword(password, id) {
+        const user = await findUserById(id);
+        const isValidPass = await bcrypt.compare(password, user.passwordHash);
+        if (!isValidPass) {
+            return {
+                status: false,
+                message: "Wrong password!"
+            }
+        } else return {
+            status: true,
+            message: 'Password confirmed'
+        }
+    }
+
+    async updatePassword(password, id) {
+        if (!password) {
+            throw ApiError.badRequest("No data!")
+        }
+        const user = await findUserById(id);
+
+        const isValidPass = await bcrypt.compare(password, user.passwordHash);
+        if (isValidPass) {
+            throw ApiError.badRequest("The same password!")
+        }
+        const passwordHash = await createPasswordHash(password);
+
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { _id: id },
+            { passwordHash },
+            { returnDocument: 'after' },
+        );
+        if (!updatedUser) {
+            throw ApiError.forbidden("Modified forbidden")
+        } else return {
+            status: true,
+            message: `User ${updatedUser.userName} successfully updated`
+        }
+    }
+
+    async updateProfile(body, id) {
+        if (!body) {
+            throw ApiError.badRequest("No data!")
+        }
+        const { userName, email, address } = body;
+
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { _id: id },
+            {
+                $set: {
+                    userName,
+                    email,
+                    address,
+                }
+            },
+            { returnDocument: 'after' },
+        );
+        if (!updatedUser) {
+            throw ApiError.forbidden("Modified forbidden")
+        } else return {
+            user: updatedUser,
+            message: `User ${updatedUser.userName} successfully updated`
+        };
+    }
 }
 
 export default new UserService;
