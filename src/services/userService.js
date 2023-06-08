@@ -130,10 +130,7 @@ class UserService {
         const user = await findUserById(id);
         const isValidPass = await bcrypt.compare(password, user.passwordHash);
         if (!isValidPass) {
-            return {
-                status: false,
-                message: "Wrong password!"
-            }
+            throw ApiError.badRequest("Wrong password!")
         } else return {
             status: true,
             message: 'Password confirmed'
