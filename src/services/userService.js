@@ -68,17 +68,13 @@ class UserService {
     }
 
     async login(data) {
-        const { phone, email, password } = data;
-        let user;
-        if (email) {
-            user = await UserModel.findOne({ email });
-        }
-        if (!user && phone) {
-            user = await UserModel.findOne({ phone });
-        }
+        const { phone, password } = data;
+
+        user = await UserModel.findOne({ phone });
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
+
         let isValidPass;
         if (user.passwordHash) {
             isValidPass = await bcrypt.compare(password, user.passwordHash)
@@ -99,9 +95,9 @@ class UserService {
     }
 
     async setPassword(data) {
-        const { phone, password } = data;
+        const { userId, password } = data;
 
-        const user = await UserModel.findOne({ phone });
+        const user = await findUserById(userId);
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
