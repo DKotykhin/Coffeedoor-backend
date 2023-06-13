@@ -3,7 +3,11 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const storeSchema = new Schema({
-    group: String,
+    group: {
+        type: String,
+        required: true,
+        enum: ['coffee', 'tea', 'jam', 'mills', 'accessories', 'bulk'],
+    },
     title: {
         ua: {
             type: String,
