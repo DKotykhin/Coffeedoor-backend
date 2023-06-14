@@ -68,9 +68,8 @@ class UserService {
     }
 
     async login(data) {
-        const { phone, password } = data;
-
-        user = await UserModel.findOne({ phone });
+        const { phone, password } = data;        
+        const user = await UserModel.findOne({ phone });        
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
