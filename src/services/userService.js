@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 import UserModel from "../models/UserModel.js";
 import ApiError from '../error/apiError.js';
 import { findUserById } from '../utils/findUserById.js';
+import { mailConfig } from '../utils/mailConfig.js';
 
 const generateToken = (_id) => {
     return jwt.sign(
@@ -68,8 +70,8 @@ class UserService {
     }
 
     async login(data) {
-        const { phone, password } = data;        
-        const user = await UserModel.findOne({ phone });        
+        const { phone, password } = data;
+        const user = await UserModel.findOne({ phone });
         if (!user) {
             throw ApiError.notFound("Can't find user")
         }
@@ -119,6 +121,52 @@ class UserService {
             user: updatedUser,
             message: 'Password successfully setted'
         };
+    }
+
+    async resetPassword(email) {
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            throw ApiError.notFound("Can't find user with this email")
+        };
+
+        const buffer = crypto.randomBytes(16);
+        const token = buffer.toString('hex');
+        mailConfig(token, email);
+
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { email },
+            {
+                'reset.token': token,
+                'reset.expire': Date.now() + (3600 * 1000)
+            },
+            { returnDocument: 'after' },
+        );
+        if (!updatedUser) {
+            throw ApiError.forbidden("Modified forbidden")
+        } else return {
+            status: true,
+            message: `${updatedUser.userName}, link for reset password successfully sent`
+        }
+    }
+
+    async setNewPassword(body) {
+        const { token, password } = body;
+        const passwordHash = await createPasswordHash(password);
+
+        const updatedUser = await UserModel.findOneAndUpdate(
+            { 'reset.token': token },
+            {
+                passwordHash,
+                'reset.token': '',
+            },
+            { returnDocument: 'after' },
+        );
+        if (!updatedUser) {
+            throw ApiError.forbidden("Modified forbidden")
+        } else return {
+            status: true,
+            message: 'New password successfully setted'
+        }
     }
 
     async confirmPassword(password, id) {

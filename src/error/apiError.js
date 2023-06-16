@@ -17,6 +17,10 @@ class ApiError extends Error {
         return new ApiError(404, message)
     }
 
+    static invalidValue(message) {
+        return new ApiError(422, message)
+    }
+
     static internalError(message) {
         return new ApiError(500, message)
     }

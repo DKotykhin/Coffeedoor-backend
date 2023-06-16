@@ -20,13 +20,13 @@ const storage = multer.diskStorage({
     }
 });
 
+const allowedTypes = ['image/jpeg', 'image/webp', 'image/png'];
+
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpeg' ||
-        file.mimetype === 'image/webp' ||
-        file.mimetype === 'image/png') {
+    if (allowedTypes.includes(file.mimetype)) {
         cb(null, true)
     } else {
-        cb(ApiError.internalError('Wrong file format'), false)
+        cb(ApiError.invalidValue('Wrong file format'), false)
     }
 }
 

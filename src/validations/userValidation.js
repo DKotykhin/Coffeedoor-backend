@@ -6,16 +6,19 @@ const phone = body('phone')
 const password = body('password')
     .isString().withMessage('Incorrect data format')
     .isLength({ min: 8 }).withMessage('Password must be at least 8 chars long')
-    .isLength({ max: 100 }).withMessage('Password must be maximum 100 chars long');
+    .isLength({ max: 100 }).withMessage('Password must be maximum 100 chars long')
+    .trim();
 
 const userName = body('userName')
     .isString().withMessage('Incorrect name format')
     .isLength({ min: 3 }).withMessage('Name must be at least 3 chars long')
-    .isLength({ max: 100 }).withMessage('Name must be maximum 100 chars long');
+    .isLength({ max: 100 }).withMessage('Name must be maximum 100 chars long')
+    .trim();
 
 const email = body('email')
     .optional()
-    .isEmail().withMessage('Incorrect email format');
+    .isEmail().withMessage('Incorrect email format')
+    .normalizeEmail();
 
 const address = body('address')
     .optional()
@@ -26,7 +29,7 @@ const address = body('address')
 const avatarURL = body('avatar')
     .optional().isURL().withMessage('Incorrect URL');
 
-class Validation {
+class UserValidation {
     register = [phone, password, userName];
     login = [phone, password];
     name = [userName];
@@ -34,4 +37,4 @@ class Validation {
     profile = [userName, email, address]
 }
 
-export default new Validation;
+export default new UserValidation;

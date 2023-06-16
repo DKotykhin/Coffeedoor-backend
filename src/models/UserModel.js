@@ -17,6 +17,10 @@ const userSchema = new Schema({
         enum: ['customer', 'user', 'admin'],
         default: 'customer',
     },
+    reset: {
+        token: String,
+        expire: Date,
+    },
     passwordHash: String,
     avatarURL: String,
 },

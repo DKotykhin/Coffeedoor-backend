@@ -1,9 +1,9 @@
 import express from "express";
 
-import { storeController, uploadController, orderController, menuController, userController } from "../controllers/index.js";
-import { checkAuth, addItem, checkAdminAuth, validationErrors } from "../middlewares/index.js";
+import { storeController, uploadController, orderController, menuController, userController } from "../controllers/_index.js";
+import { checkAuth, addItem, checkAdminAuth } from "../middlewares/_index.js";
 import { uploadImage } from "../utils/multerUpload.js";
-import validation from "../validations/validation.js";
+import { userValidation, validationErrors } from "../validations/_index.js";
 
 const router = express.Router();
 
@@ -29,14 +29,16 @@ router.delete('/image/:fileName', uploadController.deleteOne);
 
 router.post('/send', orderController.orderData);
 
-router.post('/auth/register', validation.register, validationErrors, userController.register);
-router.post('/auth/login', validation.login, validationErrors, userController.login);
-router.patch('/auth/password', validation.password, validationErrors, userController.setPassword);
+router.post('/auth/register', userValidation.register, validationErrors, userController.register);
+router.post('/auth/login', userValidation.login, validationErrors, userController.login);
+router.patch('/auth/password', userValidation.password, validationErrors, userController.setPassword);
+router.post('/auth/reset', userController.resetPassword);
+router.patch('/auth/reset', userController.setNewPassword);
 
 router.get('/user/me', checkAuth, userController.loginByToken);
 router.get('/user/orders', checkAuth, orderController.userOrders);
-router.post('/user/password', checkAuth, validation.password, validationErrors, userController.confirmPassword);
-router.patch('/user/password', checkAuth, validation.password, validationErrors, userController.updatePassword);
-router.patch('/user/me', checkAuth, validation.profile, validationErrors, userController.updateProfile);
+router.post('/user/password', checkAuth, userValidation.password, validationErrors, userController.confirmPassword);
+router.patch('/user/password', checkAuth, userValidation.password, validationErrors, userController.updatePassword);
+router.patch('/user/me', checkAuth, userValidation.profile, validationErrors, userController.updateProfile);
 
 export default router;
