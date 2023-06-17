@@ -152,12 +152,13 @@ class UserService {
     async setNewPassword(body) {
         const { token, password } = body;
         const passwordHash = await createPasswordHash(password);
-
         const updatedUser = await UserModel.findOneAndUpdate(
-            { 'reset.token': token },
+            { 'reset.token': token, 'reset.expire': { $gt: Date.now() } },
             {
-                passwordHash,
-                'reset.token': '',
+                $set: {
+                    passwordHash,
+                    'reset.token': '',
+                }
             },
             { returnDocument: 'after' },
         );
