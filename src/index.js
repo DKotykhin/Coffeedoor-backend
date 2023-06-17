@@ -20,8 +20,7 @@ const app = express();
 
 app.use(cors());
 app.use(helmet({
-    contentSecurityPolicy: false,
-    xDownloadOptions: false,
+    crossOriginResourcePolicy: false,
 }));
 app.use(express.json());
 
