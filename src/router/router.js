@@ -40,6 +40,6 @@ router.get('/user/orders', checkAuth, orderController.userOrders);
 router.post('/user/password', checkAuth, userValidation.password, validationErrors, userController.confirmPassword);
 router.patch('/user/password', checkAuth, userValidation.password, validationErrors, userController.updatePassword);
 router.patch('/user/me', checkAuth, userValidation.profile, validationErrors, userController.updateProfile);
-router.delete('/user/me', userController.deleteUser);
+router.delete('/user/me', checkAuth, userController.deleteUser);
 
 export default router;

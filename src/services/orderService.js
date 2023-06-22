@@ -61,32 +61,32 @@ class OrderService {
     async findOrdersByUser(id) {
         const orders = await OrderModel.find({ userId: id }).sort({ createdAt: -1 });
 
-        const ordersStatistic = await OrderModel.aggregate([
-            {
-                $match: { userId: new Types.ObjectId(id) }
-            },
-            {
-                $group: {
-                    _id: '$userId',
-                    count: {
-                        $sum: 1,
-                    },
-                    sum: {
-                        $sum: '$orderSum',
-                    },
-                    average: {
-                        $avg: '$orderSum',
-                    },
-                }
-            }
-        ]);
-        const statistic = {
-            totalCount: ordersStatistic[0].count,
-            totalSum: ordersStatistic[0].sum,
-            averageSum: Math.round(ordersStatistic[0].average),
-        };
-
         if (orders.length) {
+            const ordersStatistic = await OrderModel.aggregate([
+                {
+                    $match: { userId: new Types.ObjectId(id) }
+                },
+                {
+                    $group: {
+                        _id: '$userId',
+                        count: {
+                            $sum: 1,
+                        },
+                        sum: {
+                            $sum: '$orderSum',
+                        },
+                        average: {
+                            $avg: '$orderSum',
+                        },
+                    }
+                }
+            ]);
+            const statistic = {
+                totalCount: ordersStatistic[0].count,
+                totalSum: ordersStatistic[0].sum,
+                averageSum: Math.round(ordersStatistic[0].average),
+            };
+            
             return { orders, statistic };
         } else {
             return {
