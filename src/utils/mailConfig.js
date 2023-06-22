@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const mailConfig = (token, email) => {
+export const mailConfig = async (token, email) => {
     const transport = nodemailer.createTransport({
         host: "smtp.sendgrid.net",
         port: 587,
@@ -11,7 +11,7 @@ export const mailConfig = (token, email) => {
     });
 
     const message = {
-        from: "info@coffeedoor.space",
+        from: '"CoffeeDoor Brew Bar & Coffeeshop" <info@coffeedoor.space>',
         to: email,
         subject: 'Restore password',
         text: 'Please, follow the link to set new password',
@@ -19,17 +19,10 @@ export const mailConfig = (token, email) => {
             <h2>Please, follow the link to set new password</h2>
             <h4>If you don't restore your password ignore this mail</h4>
             <hr />
+            <br />
             <a href='https://luckycat.pp.ua/auth/reset/${token}'>Link for set new password</a>
         `
     }
 
-    transport.sendMail(message, (err, info) => {
-        if (err) {
-            console.log(err);
-            return false
-        } else {
-            console.log(info.response);
-            return true;
-        }
-    });
+    return await transport.sendMail(message);
 }

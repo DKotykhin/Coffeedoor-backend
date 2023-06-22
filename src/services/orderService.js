@@ -1,9 +1,9 @@
 import axios from 'axios';
+import { Types } from 'mongoose';
 
-import OrderModel from '../models/OrderModel.js';
-import UserModel from '../models/UserModel.js';
-import ApiError from '../error/apiError.js';
 import userService from './userService.js';
+import OrderModel from '../models/OrderModel.js';
+import ApiError from '../error/apiError.js';
 
 class OrderService {
     async writeOrderData(data) {
@@ -61,11 +61,37 @@ class OrderService {
     async findOrdersByUser(id) {
         const orders = await OrderModel.find({ userId: id }).sort({ createdAt: -1 });
 
+        const ordersStatistic = await OrderModel.aggregate([
+            {
+                $match: { userId: new Types.ObjectId(id) }
+            },
+            {
+                $group: {
+                    _id: '$userId',
+                    count: {
+                        $sum: 1,
+                    },
+                    sum: {
+                        $sum: '$orderSum',
+                    },
+                    average: {
+                        $avg: '$orderSum',
+                    },
+                }
+            }
+        ]);
+        const statistic = {
+            totalCount: ordersStatistic[0].count,
+            totalSum: ordersStatistic[0].sum,
+            averageSum: Math.round(ordersStatistic[0].average),
+        };
+
         if (orders.length) {
-            return { orders };
+            return { orders, statistic };
         } else {
             return {
                 orders: [],
+                statistic: {},
                 message: "You don't have any orders yet"
             }
         }

@@ -6,8 +6,12 @@ Full backend part for CoffeeDoor online store
 
 ## Features
 
--   Node JS, Express JS
+-   Node JS, Express
 -   use Mongo DB for database
+-   Express validator for field validations
+-   Multer for image upload
+-   JWT Token
+-   Bcrypt for creating password hash
 -   4 models for database: Store, Menu, Users, Orders
 
 ## Environment Variables

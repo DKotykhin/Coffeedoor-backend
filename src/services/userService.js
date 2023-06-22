@@ -130,8 +130,10 @@ class UserService {
         };
 
         const buffer = crypto.randomBytes(16);
+        if (!buffer) {
+            throw ApiError.internalError("Something get wrong. Try again")
+        };
         const token = buffer.toString('hex');
-        mailConfig(token, email);
 
         const updatedUser = await UserModel.findOneAndUpdate(
             { email },
@@ -143,10 +145,19 @@ class UserService {
         );
         if (!updatedUser) {
             throw ApiError.forbidden("Modified forbidden")
-        } else return {
-            status: true,
-            message: `${updatedUser.userName}, link for reset password successfully sent`
         }
+
+        return mailConfig(token, email)
+            .then((status) => {
+                return {
+                    status: status.response,
+                    message: `Email successfully sent to ${status.accepted}`,
+                };
+            })
+            .catch((err) => {
+                throw ApiError.invalidValue(
+                    err.message || "Can't send mail");
+            });
     }
 
     async setNewPassword(body) {
