@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
 import UserModel from "../models/UserModel.js";
+import OrderModel from '../models/OrderModel.js';
 import ApiError from '../error/apiError.js';
 import { findUserById } from '../utils/findUserById.js';
 import { mailConfig } from '../utils/mailConfig.js';
@@ -99,9 +100,6 @@ class UserService {
         const { userId, password } = data;
 
         const user = await findUserById(userId);
-        if (!user) {
-            throw ApiError.notFound("Can't find user")
-        }
 
         if (user.passwordHash) {
             throw ApiError.forbidden("You have password yet. Please login")
@@ -240,6 +238,15 @@ class UserService {
             user: updatedUser,
             message: `User ${updatedUser.userName} successfully updated`
         };
+    }
+
+    async deleteUser(_id) {
+        await findUserById(_id);
+        
+        const orderStatus = await OrderModel.deleteMany({ userId: _id });
+        const userStatus = await UserModel.deleteOne({ _id });
+
+        return { orderStatus, userStatus };
     }
 }
 

@@ -13,6 +13,7 @@ Full backend part for CoffeeDoor online store
 -   JWT Token
 -   Bcrypt for creating password hash
 -   4 models for database: Store, Menu, Users, Orders
+-   CRUD operations for all models
 
 ## Environment Variables
 
