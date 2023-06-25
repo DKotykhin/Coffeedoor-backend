@@ -19,16 +19,17 @@ class OrderService {
         }
 
         const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-        let message = `<b>--- Заявка з сайту ---</b>\n`;
-        let orderQuantity = 0;
-        let orderSum = 0;
-
+        
+        let message = `<b>--- Заявка з сайту ---</b>\n`;        
         message += `<b>Відправник: </b>${userName}\n`;
         message += `<b>Телефон: </b>${phone}\n`;
         message += `<b>Спосіб доставки: </b>${deliveryWay}\n`;
         message += `<b>Адреса: </b>${address ? address : ""}\n`;
         message += `<b>Коментар: </b>${comment ? comment : ""}\n`;
         message += `<b>Замовлення: </b>\n`;
+
+        let orderQuantity = 0;
+        let orderSum = 0;
 
         basketData.forEach(item => {
             message += `${item.title} ${item.itemName}, ${item.weight ? `${item.weight}г,` : ""

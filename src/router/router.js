@@ -2,8 +2,8 @@ import express from "express";
 
 import { storeController, uploadController, orderController, menuController, userController } from "../controllers/_index.js";
 import { checkAuth, addItem, checkAdminAuth } from "../middlewares/_index.js";
-import { uploadImage } from "../utils/multerUpload.js";
 import { userValidation, validationErrors } from "../validations/_index.js";
+import { uploadImage } from "../utils/multerConfig.js";
 
 const router = express.Router();
 

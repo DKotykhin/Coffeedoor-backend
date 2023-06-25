@@ -20,6 +20,7 @@ const userSchema = new Schema({
     reset: {
         token: String,
         expire: Date,
+        modified: Date,
     },
     passwordHash: String,
     avatarURL: String,

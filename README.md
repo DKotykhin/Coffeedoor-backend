@@ -4,16 +4,25 @@ Full backend part for CoffeeDoor online store
 
 ![Logo](https://i.ibb.co/VxVb9gn/logo-700x191.webp)
 
+## Technologies
+
+-   Node JS, Express, Express Validator, Mongoose, Multer, Yup, JWT, Nodemailer, Axios, Sharp, Bcrypt
+-   Database: Mongo DB
+
 ## Features
 
--   Node JS, Express
--   use Mongo DB for database
+-   Backend app for Coffeedoor online shop
 -   Express validator for field validations
 -   Multer for image upload
--   JWT Token
+-   JWT Token for auntification
+-   Different users roles
+-   Restore password via email
 -   Bcrypt for creating password hash
 -   4 models for database: Store, Menu, Users, Orders
 -   CRUD operations for all models
+-   Get aggregate info about users orders
+-   Orders Telegram notification
+-   Image Upload and Delete services for store items
 
 ## Environment Variables
 

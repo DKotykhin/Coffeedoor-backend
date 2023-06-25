@@ -166,7 +166,9 @@ class UserService {
             {
                 $set: {
                     passwordHash,
-                    'reset.token': '',
+                    'resetPassword.token': null,
+                    'resetPassword.expire': null,
+                    'resetPassword.modified': Date.now(),
                 }
             },
             { returnDocument: 'after' },
